@@ -1,33 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react';
 import './App.css'
 
+interface Movies{
+  results: Array<{
+    id: number;
+    title: string;
+    image: string;
+    background_path: string;
+    overview: string;
+  }>
+}
+
+export type SingleMovie = {
+  id: number;
+  title: string;
+  image: string;
+  description: string;
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [movies, setMovies] = React.useState<Movies | null>(null);
+  React.useEffect(() => {
+    async function fetchData (){
+      const result = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=428e47f069133d75630882889a482070&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1');
+      const data = await result.json();
+      if(data && data.results){
+        setMovies({ results: data.results });
+      } else {
+        console.log("error while fetching data");
+      }
+      
+      
+    }
+    fetchData();
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <> 
+     <div>
+      {movies && movies.results && movies.results.length > 0 ? (
+        movies.results.map((movie) => (
+          <div key={movie.id}>
+            <h2>{movie.title}</h2>
+            <img src={movie.image} alt={movie.title} />
+            <p>{movie.overview}</p>
+          </div>
+        ))
+      ) : (
+        <p>No movies available</p>
+      )}
+    </div>
     </>
   )
 }
