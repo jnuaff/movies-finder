@@ -1,42 +1,40 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.teaser-movies {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+@media (max-width: 1024px) {
+  .teaser-movies {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@media (max-width: 768px) {
+  .teaser-movies {
+    grid-template-columns: 1fr; 
   }
+} 
+
+.teaser-movies__movie {
+  position: relative;
+  border: 1px solid white;
+  height: 300px;
+}
+.teaser-movies__figure {
+  height: 100%;
+  margin: 0;
 }
 
-.card {
-  padding: 2em;
+.teaser-movies__title{
+  position: absolute;
+  bottom: 10px;
+  margin: 0;
 }
 
-.read-the-docs {
-  color: #888;
+.teaser-movies__picture,
+.teaser-grid__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

@@ -6,7 +6,7 @@ interface Movies{
     id: number;
     title: string;
     image: string;
-    background_path: string;
+    backdrop_path: string;
     overview: string;
   }>
 }
@@ -36,22 +36,29 @@ function App() {
   }, []);
 
   return (
-    <> 
-     <div>
+    <div>
+    <h1>Search your movies</h1>
+    <div className='teaser-movies'>
       {movies && movies.results && movies.results.length > 0 ? (
         movies.results.map((movie) => (
-          <div key={movie.id}>
-            <h2>{movie.title}</h2>
-            <img src={movie.image} alt={movie.title} />
-            <p>{movie.overview}</p>
+          <div key={movie.id} className='teaser-movies__movie'>
+            <h2 className='teaser-movies__title'>{movie.title}</h2>
+            <figure className="teaser-movies__figure">
+              <picture className="teaser-movies__picture picture">
+                <source type="image/webp" srcSet={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`} />
+                <img className="teaser-grid__image" src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`} alt={movie.title} />
+              </picture>
+            </figure>
           </div>
         ))
       ) : (
-        <p>No movies available</p>
+        <h2>No movies available</h2>
       )}
     </div>
-    </>
+  </div>
   )
+  
+    
 }
 
 export default App
