@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./Home.css";
 import React from 'react';
 
@@ -15,7 +16,7 @@ export type SingleMovie = {
   id: number;
   title: string;
   image: string;
-  description: string;
+  overview: string;
 }
 
 export default function Home(){
@@ -44,7 +45,9 @@ export default function Home(){
       {movies && movies.results && movies.results.length > 0 ? (
         movies.results.map((movie) => (
           <div key={movie.id} className='teaser-movies__movie'>
-            <h2 className='teaser-movies__title'>{movie.title}</h2>
+            <Link to={`/details/${movie.id}`} className='teaser-movies__link'>
+                <h2 className='teaser-movies__title'>{movie.title}</h2>
+            </Link>
             <figure className="teaser-movies__figure">
               <picture className="teaser-movies__picture picture">
                 <source type="image/webp" srcSet={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`} />
