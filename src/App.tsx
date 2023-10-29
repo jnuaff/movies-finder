@@ -35,6 +35,8 @@ function App() {
     fetchData();
   }, []);
 
+  console.log(movies)
+
   return (
     <div>
     <h1>Search your movies</h1>

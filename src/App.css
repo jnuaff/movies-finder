@@ -18,18 +18,22 @@
 
 .teaser-movies__movie {
   position: relative;
-  border: 1px solid white;
-  height: 300px;
+  height: 200px;
 }
 .teaser-movies__figure {
+  background: linear-gradient(#00000000, #000000B2);
   height: 100%;
   margin: 0;
 }
 
 .teaser-movies__title{
   position: absolute;
+  cursor: pointer;
   bottom: 10px;
   margin: 0;
+  z-index: 2;
+  margin-left: clamp(5px, 5%, 10px);
+  margin-right: clamp(5px, 5%, 10px);;
 }
 
 .teaser-movies__picture,
@@ -37,4 +41,42 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.teaser-movies__figure::after{
+  transition: opacity 0.60s ease-out;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(#00000000, #000000B2);
+  opacity: 0.7;
+}
+
+.teaser-movies__title::after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    border-radius: 5px;
+    height: 0.05em;
+    bottom: 3px;
+    left: 0;
+    background: currentcolor;
+    transform-origin: bottom right;
+    transition: transform 0.60s ease-out;
+}
+
+.teaser-movies__title:hover::after{
+  transform: scaleX(1);
+  transform-origin: bottom left;
+  z-index: 2;
+}
+
+.teaser-movies__title:hover + .teaser-movies__figure::after,
+.teaser-movies__title:hover::after {
+  opacity: 1; /* Adjust the opacity value as desired */
 }
