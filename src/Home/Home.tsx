@@ -2,22 +2,33 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 import React from 'react';
 
-interface Movies{
+interface Movies {
   results: Array<{
     id: number;
     title: string;
     image: string;
     backdrop_path: string;
     overview: string;
-  }>
+  }>;
 }
+
+export type ProductionCompany = {
+  id: number;
+  name: string;
+  origin_country: string;
+  logo_path: string;
+};
 
 export type SingleMovie = {
   id: number;
   title: string;
   image: string;
   overview: string;
-}
+  backdrop_path: string;
+  release_date: string;
+  production_companies: Array<ProductionCompany>;
+};
+
 
 export default function Home(){
   const [movies, setMovies] = React.useState<Movies | null>(null);
