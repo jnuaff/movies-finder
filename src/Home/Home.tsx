@@ -44,9 +44,7 @@ export default function Home() {
   console.log(query);
 	React.useEffect(() => {
 		async function fetchData() {
-			const result = await fetch(
-				"https://api.themoviedb.org/3/discover/movie?api_key=428e47f069133d75630882889a482070&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1"
-			);
+      const result = await fetch(query ? `https://api.themoviedb.org/3/search/movie?api_key=428e47f069133d75630882889a482070&language=en-US&query=${query}&page=1`:	"https://api.themoviedb.org/3/discover/movie?api_key=428e47f069133d75630882889a482070&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1");
 			const data = await result.json();
 			if (data && data.results) {
 				setMovies({ results: data.results });
@@ -55,7 +53,7 @@ export default function Home() {
 			}
 		}
 		fetchData();
-	}, []);
+	}, [query]);
 
 	return (
 		<>
