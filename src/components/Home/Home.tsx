@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./Home.css";
 import React from "react";
-import { useFavorites } from "../context/FavoritesContext";
+import { useFavorites } from "../../context/FavoritesContext";
 
 interface Movies {
 	results: Array<{
@@ -44,7 +44,7 @@ export default function Home() {
 	const [movies, setMovies] = React.useState<Movies | null>(null);
 	const [query, setQuery] = React.useState<string | null>(null);
 
-	const {addToFavorites, favorites} = useFavorites()
+	const {addToFavorites, removeFromFavorites, favoriteMovies} = useFavorites()
 
 	React.useEffect(() => {
 		async function fetchData() {
@@ -67,11 +67,12 @@ export default function Home() {
 		<>
 			<Navbar setQuery={setQuery} />
 			<main>
+				<section className="teaser-movies">
 				<header>
 					<h1 className="teaser-movies__header visible">Movies</h1>
 				</header>
-				<section className="teaser-movies">
-					{movies && movies.results && movies.results.length > 0 ? (
+				<div className="teaser-movies__wrapper">
+				{movies && movies.results && movies.results.length > 0 ? (
 						movies.results.map((movie) => (
 							<div key={movie.id} className="teaser-movies__movie">
 								<Link to={`/details/${movie.id}`} className="teaser-movies__link">
@@ -90,19 +91,24 @@ export default function Home() {
 								<span
 									className="teaser-movies__button"
 									onClick={() => {
-										if (favorites.some((favorite) => favorite.id === movie.id)) {
+										if (favoriteMovies.some((favorite) => favorite.id === movie.id)) {
 											return; // Do nothing if the movie is already in favorites
 										} else {
-											addToFavorites(movie.id, movie.title, movie.overview, movie.backdrop_path)
+											addToFavorites(movie.id, movie.title, movie.overview, movie.backdrop_path);
+											console.log("added")
 										}
 									}}>
 									Add to favorites
+								</span>
+								<span onClick={() => removeFromFavorites(movie.id)} style={{position: "absolute", bottom: "20px", right: "10px", zIndex:"3"}}>
+									delete from favorites
 								</span>
 							</div>
 						))
 					) : (
 						<h2>No movies available</h2>
 					)}
+				</div>
 				</section>
 			</main>
 		</>
