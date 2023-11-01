@@ -47,7 +47,7 @@ export default function Details() {
 								<p>{movieDetails.overview}</p>
 							</div>
 							<div>
-								<h2>Production {movieDetails.production_companies.length > 0 ? "Companies" : "Companie"}</h2>
+								<h2>Production {movieDetails.production_companies && movieDetails.production_companies?.length > 0 ? "Companies" : "Companie"}</h2>
 								{movieDetails.production_companies && movieDetails.production_companies.length ? (
 									movieDetails.production_companies.map((company) => (
 										<ul className="movie-details__details-list">
@@ -57,7 +57,7 @@ export default function Details() {
 										</ul>
 									))
 								) : (
-									<span>{movieDetails.production_companies[0].name}</span>
+									<span>info not available</span>
 								)}
 							</div>
 							<div>

@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import "./Home.css";
 import React from "react";
+import { useFavorites } from "../context/FavoritesContext";
 
 interface Movies {
 	results: Array<{
 		id: number;
 		title: string;
-		image: string;
 		backdrop_path: string;
 		overview: string;
 	}>;
@@ -22,29 +22,37 @@ export type ProductionCompany = {
 export type SingleMovie = {
 	id: number;
 	title: string;
-	image: string;
-	overview: string;
+	overview?: string;
 	backdrop_path: string;
-	release_date: string;
-	production_companies: Array<ProductionCompany>;
+	release_date?: string;
+	production_companies?: Array<ProductionCompany>;
 };
 
-const Navbar = ({setQuery}:{setQuery: (query: string) => void} ) => {
+const Navbar = ({ setQuery }: { setQuery: (query: string) => void }) => {
 	return (
 		<header className="global-header__header">
-		<input type="search" placeholder="Search a movie" onChange={(event: React.ChangeEvent<HTMLInputElement>) => setQuery(event?.target.value)} />
+			<input
+				type="search"
+				placeholder="Search a movie"
+				onChange={(event: React.ChangeEvent<HTMLInputElement>) => setQuery(event?.target.value)}
+			/>
 		</header>
 	);
 };
 
 export default function Home() {
 	const [movies, setMovies] = React.useState<Movies | null>(null);
-  const [query, setQuery] = React.useState<string | null>(null);
+	const [query, setQuery] = React.useState<string | null>(null);
 
-  console.log(query);
+	const {addToFavorites, favorites} = useFavorites()
+
 	React.useEffect(() => {
 		async function fetchData() {
-      const result = await fetch(query ? `https://api.themoviedb.org/3/search/movie?api_key=428e47f069133d75630882889a482070&language=en-US&query=${query}&page=1`:	"https://api.themoviedb.org/3/discover/movie?api_key=428e47f069133d75630882889a482070&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1");
+			const result = await fetch(
+				query
+					? `https://api.themoviedb.org/3/search/movie?api_key=428e47f069133d75630882889a482070&language=en-US&query=${query}&page=1`
+					: "https://api.themoviedb.org/3/discover/movie?api_key=428e47f069133d75630882889a482070&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1"
+			);
 			const data = await result.json();
 			if (data && data.results) {
 				setMovies({ results: data.results });
@@ -57,7 +65,7 @@ export default function Home() {
 
 	return (
 		<>
-			<Navbar setQuery={setQuery}/>
+			<Navbar setQuery={setQuery} />
 			<main>
 				<header>
 					<h1 className="teaser-movies__header visible">Movies</h1>
@@ -79,6 +87,17 @@ export default function Home() {
 										/>
 									</picture>
 								</figure>
+								<span
+									className="teaser-movies__button"
+									onClick={() => {
+										if (favorites.some((favorite) => favorite.id === movie.id)) {
+											return; // Do nothing if the movie is already in favorites
+										} else {
+											addToFavorites(movie.id, movie.title, movie.overview, movie.backdrop_path)
+										}
+									}}>
+									Add to favorites
+								</span>
 							</div>
 						))
 					) : (

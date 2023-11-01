@@ -96,5 +96,20 @@ a {
 
 .teaser-movies__title:hover + .teaser-movies__figure::after,
 .teaser-movies__title:hover::after {
-	opacity: 1; /* Adjust the opacity value as desired */
+	opacity: 1;
+}
+
+.teaser-movies__button{
+  transition: opacity ease-out 0.75s;
+  opacity: 0;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.teaser-movies__movie:hover .teaser-movies__button {
+  opacity: 1;
+
 }
