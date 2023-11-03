@@ -9,28 +9,24 @@ a {
 	color: white;
 }
 
-.teaser-movies{
+.teaser-movies {
 	padding: 10px;
-
 }
 
 @media (max-width: 1024px) {
 	.teaser-movies__wrapper {
 		grid-template-columns: repeat(2, 1fr);
 		gap: 0;
-	
 	}
-	.global-header__nav{
+	.global-header__nav {
 		padding-left: 50px;
 		padding-right: 50px;
-	
 	}
-	.global-header__item{
+	.global-header__item {
 		gap: 8px;
 	}
-	.teaser-movies{
+	.teaser-movies {
 		padding: 0;
-	
 	}
 }
 
@@ -38,12 +34,11 @@ a {
 	.teaser-movies__wrapper {
 		grid-template-columns: 1fr;
 	}
-	.global-header__nav{
+	.global-header__nav {
 		padding-left: 20px;
 		padding-right: 20px;
-	
 	}
-	.global-header__item{
+	.global-header__item {
 		gap: 5px;
 	}
 }
@@ -53,18 +48,23 @@ a {
 	color: white;
 }
 
-.global-header__nav{
+.global-header__nav {
+
+	height: auto;
+	padding-left: 100px;
+	padding-right: 100px;
+}
+
+.global-header__wrapper {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	flex-wrap: nowrap;
 	align-items: center;
 	height: 60px;
-	padding-left: 100px;
-	padding-right: 100px;
 }
 
-.global-header__item{
+.global-header__item {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -72,73 +72,91 @@ a {
 }
 
 @media (max-width: 1024px) {
-	.global-header__nav{
+	.global-header__nav {
 		padding-left: 50px;
 		padding-right: 50px;
-	
 	}
-	.global-header__item{
+	.global-header__item {
 		gap: 8px;
 	}
 }
 
 @media (max-width: 768px) {
-	.global-header__item--link{
+	.global-header__item--link {
 		display: none;
 	}
-	.global-header__nav{
+	.global-header__nav {
 		padding-left: 20px;
 		padding-right: 20px;
-	
 	}
-	.global-header__item{
+	.global-header__item {
 		gap: 5px;
 	}
 }
 
-
-.global-header__link{
-	font-size: 30px;
+.global-header__link {
+	font-size: 20px;
+	text-transform: uppercase;
 }
 
-.global-header__icon{
+@media(max-width: 768px) {
+	.global-header__link{
+		font-size: 15px;
+	}
+} 
+
+.global-header__icon {
+	transition: color ease-in-out 0.25s;
+	color: rgba(255, 255, 255, 0.686);
 	cursor: pointer;
 	height: 30px;
 	width: 20px;
-	margin-top: 4px;
 }
 
-.global-header__input{
-    background-color: white;
-    border: none;
-    color: black;
-    font-size: 12pt;
-    font-weight: 100;
-    margin-right: 10px;
-    padding: .25em .75em;
-    float: right;
-    max-width: 200px;
-    text-align: left;
+.global-header__icon:hover {
+	color: white;
+}
+
+.global-header__input {
+	background-color: white;
+	border: none;
+	color: black;
+	font-size: 12pt;
+	font-weight: 100;
+	margin-right: 10px;
+	padding: 0.25em 0.75em;
+	float: right;
+	max-width: 200px;
+	text-align: left;
+	outline: none;
 }
 
 @media (max-width: 768px) {
-	.global-header__input{
+	.global-header__input {
 		max-width: 140px;
 	}
 }
 
-.global-header__burger{
+.global-header__burger {
+	transition: color ease-in-out 0.25s;
+	color: rgba(255, 255, 255, 0.686);
+	cursor: pointer;
 	display: none;
+	height: 23px;
 }
 
-@media(max-width: 768px){
-	.global-header__burger{
+.global-header__burger:hover {
+	color: white;
+}
+
+@media (max-width: 768px) {
+	.global-header__burger {
 		display: block;
 	}
 }
 
-.hidden{
-  display: none;
+.hidden {
+	display: none;
 }
 
 .teaser-movies__movie {
@@ -154,7 +172,7 @@ a {
 .teaser-movies__title {
 	position: absolute;
 	cursor: pointer;
-	bottom: 10px;
+	bottom: 25px;
 	margin: 0;
 	z-index: 2;
 	margin-left: clamp(5px, 5%, 10px);
@@ -206,17 +224,46 @@ a {
 	opacity: 1;
 }
 
+.global-header__link {
+    position: relative;
+    display: inline-block;
+    /* Add other necessary styles for your link */
+}
 
-.teaser-movies__options{
+.global-header__link::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    border-radius: 5px;
+    height: 0.05em;
+    bottom: 3px;
+    left: 0;
+    background: currentColor;
+    transform-origin: bottom right;
+    transition: transform 0.6s ease-out;
+}
+
+.global-header__link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+    z-index: 2;
+}
+
+.teaser-movies__options {
+	transition: color ease-in-out 0.25s;
 	position: absolute;
 	bottom: 10px;
 	right: 20px;
 	z-index: 2;
 	cursor: pointer;
+	color: rgba(255, 255, 255, 0.686);
+}
+
+.teaser-movies__options:hover {
 	color: white;
 }
 
 .teaser-movies__movie:hover .teaser-movies__button {
-  opacity: 1;
-
+	opacity: 1;
 }

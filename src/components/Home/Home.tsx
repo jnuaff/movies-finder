@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 import React from "react";
 import { useFavorites } from "../../context/FavoritesContext";
-import { faBars, faSearch, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faClose, faSearch, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface Movies {
 	results: Array<{
@@ -31,26 +31,33 @@ export type SingleMovie = {
 
 const Navbar = ({ setQuery }: { setQuery: (query: string) => void }) => {
 	const [openSearch, setOpenSearch] = React.useState<boolean>(false);
+	const [openMenu, setOpenMenu] = React.useState<boolean>(false);
 
 	return (
 		<header className="global-header__header">
 			<nav className="global-header__nav">
-				<FontAwesomeIcon className="global-header__burger" icon={faBars} />
-				<div className="global-header__item global-header__item--link">
-					<Link to="/favorites" className="global-header__link">
-						Favorites
-					</Link>
-					<FontAwesomeIcon className="global-header__icon" icon={faStar} />
+				<div className="global-header__wrapper">
+					{openMenu ? <FontAwesomeIcon className="global-header__burger" icon={faClose} onClick={() => setOpenMenu(!openMenu)} /> : <FontAwesomeIcon className="global-header__burger" icon={faBars} onClick={() => setOpenMenu(!openMenu)} /> }
+					<div className="global-header__item global-header__item--link">
+						<Link to="/favorites" className="global-header__link">
+							Favorites
+						</Link>
+						<FontAwesomeIcon className="global-header__icon" icon={faStar} />
+					</div>
+					<div className="global-header__item">
+						<input
+							className={`global-header__input ${!openSearch ? "hidden" : ""}`}
+							type="search"
+							placeholder="Search a movie"
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => setQuery(event?.target.value)}
+						/>
+						<FontAwesomeIcon className="global-header__icon" icon={faSearch} onClick={() => setOpenSearch(!openSearch)} />
+					</div>
 				</div>
-				<div className="global-header__item">
-					<input
-						className={`global-header__input ${!openSearch ? "hidden" : ""}`}
-						type="search"
-						placeholder="Search a movie"
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) => setQuery(event?.target.value)}
-					/>
-					<FontAwesomeIcon className="global-header__icon" icon={faSearch} onClick={() => setOpenSearch(!openSearch)} />
-				</div>
+				{openMenu && 
+					<Link to="/favorites" className="global-header__link">Favorites</Link>
+				}
+				
 			</nav>
 		</header>
 	);
@@ -110,10 +117,11 @@ export default function Home() {
 									</figure>
 									<div className="teaser-movies__options">
 										{!favoriteMovies.some((favorite) => favorite.id === movie.id) ? (
-											<span
-												onClick={() => addToFavorites(movie.id, movie.title, movie.overview, movie.backdrop_path)}>
-												Add to favorites
-											</span>
+											<div>
+												<span onClick={() => addToFavorites(movie.id, movie.title, movie.overview, movie.backdrop_path)}>
+													Add to favorites
+												</span>
+											</div>
 										) : (
 											<FontAwesomeIcon icon={faStar} onClick={() => removeFromFavorites(movie.id)} />
 										)}
