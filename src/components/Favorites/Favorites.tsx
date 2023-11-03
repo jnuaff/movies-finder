@@ -7,6 +7,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function Favorites() {
 	const { favoriteMovies, removeFromFavorites } = useFavorites();
+	console.log(favoriteMovies[0]);
 
 	React.useEffect(() => {
 		localStorage.setItem("favorites", JSON.stringify(favoriteMovies));
@@ -26,7 +27,7 @@ export default function Favorites() {
 			<main>
 				<section>
 					<header>
-						<h1>Favorites</h1>
+						<h1 className="hidden">Favorites</h1>
 					</header>
 					{favoriteMovies && favoriteMovies.length > 0 ? (
 						favoriteMovies.map((favorite) => (
@@ -36,15 +37,19 @@ export default function Favorites() {
 								</Link>
 								<figure className="teaser-movies__figure">
 									<picture className="teaser-movies__picture picture">
-										<source type="image/webp" srcSet={`https://image.tmdb.org/t/p/w500${favorite.backdrop_path}`} />
+										<source type="image/webp" srcSet={`https://image.tmdb.org/t/p/w1280${favorite.backdrop_path}`} />
 										<img
 											className="teaser-grid__image"
-											src={`https://image.tmdb.org/t/p/w500${favorite.backdrop_path}`}
+											src={`https://image.tmdb.org/t/p/w780${favorite.backdrop_path}`}
 											alt={favorite.title}
 										/>
 									</picture>
 								</figure>
-								<span onClick={() => removeFromFavorites(favorite.id)}>Delete</span>
+								<div className="favorites__options">
+									<span className="" onClick={() => removeFromFavorites(favorite.id)}>
+										Delete
+									</span>
+								</div>
 							</div>
 						))
 					) : (

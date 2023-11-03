@@ -6,7 +6,6 @@
 
 a {
 	text-decoration: none;
-	color: white;
 }
 
 .teaser-movies {
@@ -49,7 +48,6 @@ a {
 }
 
 .global-header__nav {
-
 	height: auto;
 	padding-left: 100px;
 	padding-right: 100px;
@@ -97,6 +95,7 @@ a {
 .global-header__link {
 	font-size: 20px;
 	text-transform: uppercase;
+	color: white;
 }
 
 @media(max-width: 768px) {
@@ -170,6 +169,7 @@ a {
 }
 
 .teaser-movies__title {
+	color: white;
 	position: absolute;
 	cursor: pointer;
 	bottom: 25px;

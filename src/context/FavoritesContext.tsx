@@ -23,8 +23,8 @@ export const FavoritesProvider = ({children}: {children: React.ReactNode}) => {
     const addToFavorites = (
         id: number,
         title: string,
+        description: string,
         backdrop_path: string,
-        description: string
       ) => {
           setFavoriteMovies((prevMovies: SingleMovie[]) => [
             ...prevMovies,
