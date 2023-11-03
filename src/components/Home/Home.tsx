@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 import React from "react";
 import { useFavorites } from "../../context/FavoritesContext";
-
+import { faBars, faSearch, faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface Movies {
 	results: Array<{
 		id: number;
@@ -29,13 +30,28 @@ export type SingleMovie = {
 };
 
 const Navbar = ({ setQuery }: { setQuery: (query: string) => void }) => {
+	const [openSearch, setOpenSearch] = React.useState<boolean>(false);
+
 	return (
 		<header className="global-header__header">
-			<input
-				type="search"
-				placeholder="Search a movie"
-				onChange={(event: React.ChangeEvent<HTMLInputElement>) => setQuery(event?.target.value)}
-			/>
+			<nav className="global-header__nav">
+				<FontAwesomeIcon className="global-header__burger" icon={faBars} />
+				<div className="global-header__item global-header__item--link">
+					<Link to="/favorites" className="global-header__link">
+						Favorites
+					</Link>
+					<FontAwesomeIcon className="global-header__icon" icon={faStar} />
+				</div>
+				<div className="global-header__item">
+					<input
+						className={`global-header__input ${!openSearch ? "hidden" : ""}`}
+						type="search"
+						placeholder="Search a movie"
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) => setQuery(event?.target.value)}
+					/>
+					<FontAwesomeIcon className="global-header__icon" icon={faSearch} onClick={() => setOpenSearch(!openSearch)} />
+				</div>
+			</nav>
 		</header>
 	);
 };
@@ -44,7 +60,7 @@ export default function Home() {
 	const [movies, setMovies] = React.useState<Movies | null>(null);
 	const [query, setQuery] = React.useState<string | null>(null);
 
-	const {addToFavorites, removeFromFavorites, favoriteMovies} = useFavorites()
+	const { addToFavorites, removeFromFavorites, favoriteMovies } = useFavorites();
 
 	React.useEffect(() => {
 		async function fetchData() {
@@ -63,52 +79,51 @@ export default function Home() {
 		fetchData();
 	}, [query]);
 
+	React.useEffect(() => {
+		localStorage.setItem("favorites", JSON.stringify(favoriteMovies));
+	}, [favoriteMovies]);
+
 	return (
 		<>
 			<Navbar setQuery={setQuery} />
 			<main>
 				<section className="teaser-movies">
-				<header>
-					<h1 className="teaser-movies__header visible">Movies</h1>
-				</header>
-				<div className="teaser-movies__wrapper">
-				{movies && movies.results && movies.results.length > 0 ? (
-						movies.results.map((movie) => (
-							<div key={movie.id} className="teaser-movies__movie">
-								<Link to={`/details/${movie.id}`} className="teaser-movies__link">
-									<h2 className="teaser-movies__title">{movie.title}</h2>
-								</Link>
-								<figure className="teaser-movies__figure">
-									<picture className="teaser-movies__picture picture">
-										<source type="image/webp" srcSet={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`} />
-										<img
-											className="teaser-grid__image"
-											src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
-											alt={movie.title}
-										/>
-									</picture>
-								</figure>
-								<span
-									className="teaser-movies__button"
-									onClick={() => {
-										if (favoriteMovies.some((favorite) => favorite.id === movie.id)) {
-											return; // Do nothing if the movie is already in favorites
-										} else {
-											addToFavorites(movie.id, movie.title, movie.overview, movie.backdrop_path);
-											console.log("added")
-										}
-									}}>
-									Add to favorites
-								</span>
-								<span onClick={() => removeFromFavorites(movie.id)} style={{position: "absolute", bottom: "20px", right: "10px", zIndex:"3"}}>
-									delete from favorites
-								</span>
-							</div>
-						))
-					) : (
-						<h2>No movies available</h2>
-					)}
-				</div>
+					<header>
+						<h1 className="teaser-movies__header hidden">Movies</h1>
+					</header>
+					<div className="teaser-movies__wrapper">
+						{movies && movies.results && movies.results.length > 0 ? (
+							movies.results.map((movie) => (
+								<div key={movie.id} className="teaser-movies__movie">
+									<Link to={`/details/${movie.id}`} className="teaser-movies__link">
+										<h2 className="teaser-movies__title">{movie.title}</h2>
+									</Link>
+									<figure className="teaser-movies__figure">
+										<picture className="teaser-movies__picture picture">
+											<source type="image/webp" srcSet={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`} />
+											<img
+												className="teaser-grid__image"
+												src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+												alt={movie.title}
+											/>
+										</picture>
+									</figure>
+									<div className="teaser-movies__options">
+										{!favoriteMovies.some((favorite) => favorite.id === movie.id) ? (
+											<span
+												onClick={() => addToFavorites(movie.id, movie.title, movie.overview, movie.backdrop_path)}>
+												Add to favorites
+											</span>
+										) : (
+											<FontAwesomeIcon icon={faStar} onClick={() => removeFromFavorites(movie.id)} />
+										)}
+									</div>
+								</div>
+							))
+						) : (
+							<h2>No movies available</h2>
+						)}
+					</div>
 				</section>
 			</main>
 		</>

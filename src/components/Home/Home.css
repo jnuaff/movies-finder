@@ -9,9 +9,28 @@ a {
 	color: white;
 }
 
+.teaser-movies{
+	padding: 10px;
+
+}
+
 @media (max-width: 1024px) {
 	.teaser-movies__wrapper {
 		grid-template-columns: repeat(2, 1fr);
+		gap: 0;
+	
+	}
+	.global-header__nav{
+		padding-left: 50px;
+		padding-right: 50px;
+	
+	}
+	.global-header__item{
+		gap: 8px;
+	}
+	.teaser-movies{
+		padding: 0;
+	
 	}
 }
 
@@ -19,18 +38,106 @@ a {
 	.teaser-movies__wrapper {
 		grid-template-columns: 1fr;
 	}
+	.global-header__nav{
+		padding-left: 20px;
+		padding-right: 20px;
+	
+	}
+	.global-header__item{
+		gap: 5px;
+	}
 }
 
 .global-header__header {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	flex-wrap: nowrap;
 	background-color: #2b2b2b;
-	align-items: center;
+	color: white;
 }
 
-.visible{
+.global-header__nav{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: nowrap;
+	align-items: center;
+	height: 60px;
+	padding-left: 100px;
+	padding-right: 100px;
+}
+
+.global-header__item{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
+@media (max-width: 1024px) {
+	.global-header__nav{
+		padding-left: 50px;
+		padding-right: 50px;
+	
+	}
+	.global-header__item{
+		gap: 8px;
+	}
+}
+
+@media (max-width: 768px) {
+	.global-header__item--link{
+		display: none;
+	}
+	.global-header__nav{
+		padding-left: 20px;
+		padding-right: 20px;
+	
+	}
+	.global-header__item{
+		gap: 5px;
+	}
+}
+
+
+.global-header__link{
+	font-size: 30px;
+}
+
+.global-header__icon{
+	cursor: pointer;
+	height: 30px;
+	width: 20px;
+	margin-top: 4px;
+}
+
+.global-header__input{
+    background-color: white;
+    border: none;
+    color: black;
+    font-size: 12pt;
+    font-weight: 100;
+    margin-right: 10px;
+    padding: .25em .75em;
+    float: right;
+    max-width: 200px;
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+	.global-header__input{
+		max-width: 140px;
+	}
+}
+
+.global-header__burger{
+	display: none;
+}
+
+@media(max-width: 768px){
+	.global-header__burger{
+		display: block;
+	}
+}
+
+.hidden{
   display: none;
 }
 
@@ -99,13 +206,14 @@ a {
 	opacity: 1;
 }
 
-.teaser-movies__button{
-  transition: opacity ease-out 0.75s;
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  z-index: 2;
-  cursor: pointer;
+
+.teaser-movies__options{
+	position: absolute;
+	bottom: 10px;
+	right: 20px;
+	z-index: 2;
+	cursor: pointer;
+	color: white;
 }
 
 .teaser-movies__movie:hover .teaser-movies__button {
