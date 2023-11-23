@@ -13,6 +13,8 @@ export default function Favorites() {
 		localStorage.setItem("favorites", JSON.stringify(favoriteMovies));
 	}, [favoriteMovies]);
 
+	console.log(favoriteMovies);
+
 	return (
 		<>
 			<header className="favorites__header">
